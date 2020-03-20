@@ -1,0 +1,40 @@
+<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false" [zoomControl]="true"
+  [scrollwheel]="null" (mapClick)="mapClicked($event)">
+
+  <div class="form-group">
+    <label>Enter address</label>
+    <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()"
+      placeholder="Search Nearest Location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
+  </div>
+
+  <agm-marker *ngFor="let m of markers; let i = index" (markerClick)="clickedMarker(m.label, i)" [latitude]="m.lat"
+    [longitude]="m.lng" [label]="m.label" [markerDraggable]="m.draggable" (dragEnd)="markerDragEnd(m, $event)">
+
+    <agm-info-window>
+      <strong>InfoWindow content</strong>
+    </agm-info-window>
+
+  </agm-marker>
+
+  <agm-circle [latitude]="lat + 0.3" [longitude]="lng" [radius]="5000" [fillColor]="'red'" [circleDraggable]="true"
+    [editable]="true">
+  </agm-circle>
+
+</agm-map>
+<app-float-btn (click)="open(modal_mini, 'modal_mini', 'sm')"></app-float-btn>
+<ng-template #modal_mini let-c="close" let-d="dismiss">
+  <!-- <div class="modal-header justify-content-center">
+    <div class="modal-profile">
+      <i class="material-icons">note_add</i>
+    </div>
+  </div> -->
+  <div class="modal-body">
+    <p>Add memories to the place</p>
+    <uploader></uploader>
+    <!-- <input type="file" (change)="onFileSelected($event)"> -->
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-link btn-neutral" (click)="c('Close click')"><i
+        class="material-icons">save</i>Save</button>
+  </div>
+</ng-template>
